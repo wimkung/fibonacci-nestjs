@@ -1,25 +1,22 @@
 execution:
-  - concurrency: 500
+  - concurrency: 100
     hold-for: 10m
     ramp-up: 1m
-    scenario: request-payment
+    scenario: get-fibonacci
 
 scenarios:
-  request-payment:
-    headers:
-      Content-Type: application/json
+  get-fibonacci:
     requests:
-      - url: https://staging-api-pay.fanz.io/v1/payment/request
-        method: POST
-        body-file: request-payment-body.json
+      - url: http://localhost:3000/fibonacci/9999
+        method: GET
 
 reporting:
   - module: final-stats
   - module: console
   - module: blazemeter
-    report-name: request-payment
-    test: request-patment
-    project: Fanz
+    report-name: get-fibonacci
+    test: get-fibonacci
+    project: backend
     upload-artifacts: true
 
 modules:

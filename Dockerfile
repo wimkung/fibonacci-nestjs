@@ -1,16 +1,29 @@
-FROM node:16 AS DEVELOPMENT
+FROM --platform=linux/x86_64 node:16 AS DEVELOPMENT
 
 WORKDIR /app
 
-COPY package.json .
-COPY package-lock.json .
-COPY nx.json .
-COPY workspace.json .
+COPY package*.json ./
 
 RUN npm install
 
 COPY . .
 
-RUN npx nx build comdocks-backend
-RUN npx nx build-cli
+RUN npm run build
+
+FROM --platform=linux/x86_64 node:16 AS PRODUCTION
+
+WORKDIR /app
+
+# Install app dependencies
+COPY package*.json ./
+RUN npm install --production
+
+# Copy from development build
+COPY --from=DEVELOPMENT  /app/dist ./dist
+
+CMD node /app/dist/main.js
+
+
+
+
 
