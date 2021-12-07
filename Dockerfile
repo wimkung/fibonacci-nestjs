@@ -21,7 +21,7 @@ RUN npm install --production
 # Copy from development build
 COPY --from=DEVELOPMENT  /app/dist ./dist
 
-CMD node /app/dist/main.js
+CMD ["node", "/app/dist/main.js"]
 
 
 
