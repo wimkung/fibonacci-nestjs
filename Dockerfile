@@ -1,4 +1,4 @@
-FROM --platform=linux/x86_64 node:16 AS DEVELOPMENT
+FROM node:16 AS DEVELOPMENT
 
 WORKDIR /app
 
@@ -10,7 +10,7 @@ COPY . .
 
 RUN npm run build
 
-FROM --platform=linux/x86_64 node:16 AS PRODUCTION
+FROM node:16 AS PRODUCTION
 
 WORKDIR /app
 
