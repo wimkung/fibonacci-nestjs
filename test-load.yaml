@@ -1,0 +1,44 @@
+execution:
+  - concurrency: 500
+    hold-for: 10m
+    ramp-up: 1m
+    scenario: request-payment
+
+scenarios:
+  request-payment:
+    headers:
+      Content-Type: application/json
+    requests:
+      - url: https://staging-api-pay.fanz.io/v1/payment/request
+        method: POST
+        body-file: request-payment-body.json
+
+reporting:
+  - module: final-stats
+  - module: console
+  - module: blazemeter
+    report-name: request-payment
+    test: request-patment
+    project: Fanz
+    upload-artifacts: true
+
+modules:
+  jmeter:
+    path: ./local/jmeter
+    properties:
+      log_level: DEBUG
+  console:
+    disable: false
+  blazemeter:
+    token: 5fc838f54f8586b35b64d95b:3712d09a79b30781de9a59645313ab01923c948d3e7b564f81f44153ccfe34b015bab650
+    address: https://a.blazemeter.com  # reporting service address
+    data-address: https://data.blazemeter.com
+    browser-open: start
+    public-report: false  # set to true to create a public link to the report
+    request-logging-limit: 10240 # use this to dump more of request/response data into logs, for debugging
+
+settings:
+  check-interval: 5s
+  default-executor: jmeter
+
+provisioning: local
